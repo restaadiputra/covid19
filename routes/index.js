@@ -4,7 +4,6 @@ const convertStringToNumber = require('../utils/convertStringToNumber');
 const readFile = require('../utils/readFile');
 
 const mapping = (data, result, dataField, resultField, caseType) => {
-  let countData = 0;
   data[dataField].forEach(country => {
     const { history, ...rest } = country;
 
@@ -12,16 +11,17 @@ const mapping = (data, result, dataField, resultField, caseType) => {
       Object.values(history[history.length - 1])[0]
     );
 
-    result['detail'][rest['country']] = {
+    result.detail[rest.country+rest.state] = {
       ...rest,
-      ...result['detail'][rest['country']],
+      'confirmedCase': 0,
+      'deathCase': 0,
+      'recoveredCase': 0,
+      ...result.detail[rest.country+rest.state],
       [caseType]: convertStringToNumber(
         Object.values(history[history.length - 1])[0]
       )
     };
-    countData++
   });
-  console.log('total Count data '+countData)
 };
 
 const prepareData = data => {
