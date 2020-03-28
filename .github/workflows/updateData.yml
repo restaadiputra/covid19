@@ -17,7 +17,7 @@ jobs:
     - name: install deps
       run: |
            npm install
-           node functions/syncData.js
+           npm run sync-data
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:

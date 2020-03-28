@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "heroku-postbuild": "cd client && npm install && npm run build",
+    "sync-data": "node ./functions/syncData.js"
   },
   "dependencies": {
     "axios": "^0.19.2",
