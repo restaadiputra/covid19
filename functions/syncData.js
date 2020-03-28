@@ -19,12 +19,12 @@ const sanitizeData = data =>
     const history = Object.keys(rest).map(key => ({ [key]: rest[key] }));
 
     return {
+      state,
       country: formatCountryString(country).name,
       alpha2: formatCountryString(country).alpha2,
       alpha3: formatCountryString(country).alpha3,
       region: formatCountryString(country).region,
       subRegion: formatCountryString(country).subRegion,
-      state,
       lat,
       long,
       history

@@ -1,4 +1,4 @@
-const countriesData = require('../data/allCountry.json');
+const countriesData = require('../data/country.json');
 
 RegExp.escape = s => {
   return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
