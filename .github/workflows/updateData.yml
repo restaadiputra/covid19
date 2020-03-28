@@ -1,0 +1,24 @@
+# This workflow will update data.json from JHU github repository
+
+name: Update Data
+
+on:
+  schedule:
+   - cron: "0 0,8,16 * * *"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: install deps
+      run: |
+           npm install
+           node functions/syncData.js
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+          github_token: ${{ secrets.COVID_DATA_UPDATE }}
