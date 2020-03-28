@@ -14,10 +14,16 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: install deps
+    - name: Install Deps and Sync Data
       run: |
            npm install
            npm run sync-data
+    - name: Commit files
+      run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git diff-index --quiet HEAD || git commit -m "Update Data" -a
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
