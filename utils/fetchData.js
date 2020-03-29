@@ -8,18 +8,17 @@ const getFilePath = require('../utils/getFilePath');
 // in my case, I want to use the 'data.json' that already in
 // my GitHub as that data will automatically updated periodically.
 
-const fetchData = async () => {
+const fetchData = async filename => {
   // use GitHub data if I set env of 'USE_GITHUB' to true
-  
   if (process.env.USE_GITHUB) {
     return axios
-      .get(URL.GITHUB_RAW_DATA)
+      .get(filename || URL.GITHUB_RAW_DATA)
       .then(result => get(result, 'data', {}));
   }
   // or use local 'data.json'
   else {
     return fs.promises
-      .readFile(getFilePath('data.json'), { encoding: 'utf8' })
+      .readFile(getFilePath(filename || 'data.json'), { encoding: 'utf8' })
       .then(data => JSON.parse(data));
   }
 };
