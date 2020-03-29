@@ -1508,4 +1508,16 @@
   "alpha3": "ZWE",
   "region": "Africa",
   "subRegion": "Sub-Saharan Africa"
+}, {
+  "name": "Diamond Princess",
+  "alpha2": "X1",
+  "alpha3": "XX1",
+  "region": "-",
+  "subRegion": "-"
+}, {
+  "name": "West Bank and Gaza",
+  "alpha2": "X2",
+  "alpha3": "XX2",
+  "region": "-",
+  "subRegion": "-"
 }]

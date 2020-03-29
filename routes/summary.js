@@ -38,9 +38,9 @@ const mapping = (data, result, caseType) => {
     } else {
       result.detail[rest.country] = {
         ...rest,
-        confirmedCases: 0,
-        deathCases: 0,
-        recoveredCases: 0,
+        confirmed: 0,
+        death: 0,
+        recovered: 0,
         [types[caseType].detailCase]: lastValue
       };
     }
