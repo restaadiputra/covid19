@@ -1,14 +1,15 @@
 const router = require('express').Router();
-const readFile = require('../utils/readFile');
+const fetchData = require('../utils/fetchData');
 
 router.get('/', (_, res, next) => {
-  readFile((err, data) => {
-    if (err) {
-      next();
-    } else {
+  fetchData()
+    .then(data => {
       res.status(200).send(JSON.parse(data));
-    }
-  });
+    })
+    .catch(err => {
+      console.log(err)
+      next();
+    });
 });
 
 module.exports = router;

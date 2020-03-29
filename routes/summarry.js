@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const convertStringToNumber = require('../utils/convertStringToNumber');
-const readFile = require('../utils/readFile')
+const fetchData = require('../utils/fetchData')
 
 const mapping = (data, result, dataField, resultField, caseType) => {
   data[dataField].forEach(country => {
@@ -54,13 +54,14 @@ const prepareData = data => {
 };
 
 router.get('/', (_, res, next) => {
-  readFile((err, data) => {
-    if (err) {
+  fetchData()
+    .then(data => {
+      res.status(200).send(prepareData(data));
+    })
+    .catch(err => {
+      console.log(err)
       next();
-    } else {
-      res.status(200).send(prepareData(JSON.parse(data)));
-    }
-  });
+    });
 });
 
 module.exports = router;
