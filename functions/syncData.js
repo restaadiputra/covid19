@@ -1,11 +1,28 @@
 const fs = require('fs');
-const {
-  getConfirmCases,
-  getDeathCases,
-  getRecoveredCases
-} = require('./getDataCases');
+const findLastKey = require('lodash/findLastKey');
+const cases = require('./getDataCases');
 const getFilePath = require('../utils/getFilePath');
+const convertStringToNumber = require('../utils/convertStringToNumber');
 const formatCountryString = require('../utils/formatCountryString');
+const FILENAME = require('../constants/filename');
+
+const types = {
+  confirmed: {
+    dataField: 'historyConfirmedCases',
+    countField: 'totalConfirmedCases',
+    detailCase: 'confirmed'
+  },
+  death: {
+    dataField: 'historyDeathCases',
+    countField: 'totalDeathCases',
+    detailCase: 'death'
+  },
+  recovered: {
+    dataField: 'historyRecoveredCases',
+    countField: 'totalRecoveredCases',
+    detailCase: 'recovered'
+  }
+};
 
 const sanitizeData = data =>
   data.map(item => {
@@ -16,7 +33,8 @@ const sanitizeData = data =>
       Long: long,
       ...rest
     } = item;
-    const history = Object.keys(rest).map(key => ({ [key]: rest[key] }));
+    // const history = Object.keys(rest).map(key => ({ [key]: rest[key] }));
+    const history = rest;
 
     return {
       state,
@@ -31,16 +49,41 @@ const sanitizeData = data =>
     };
   });
 
+const mapping = (data, result, caseType) => {
+  data[types[caseType].dataField].forEach(country => {
+    const { history, state, ...rest } = country;
+    const lastValue = convertStringToNumber(history[findLastKey(history)]);
+
+    result[types[caseType].countField] += lastValue;
+
+    if (result.detail[rest.country]) {
+      result.detail[rest.country] = {
+        ...result.detail[rest.country],
+        [types[caseType].detailCase]:
+          result.detail[rest.country][types[caseType].detailCase] + lastValue
+      };
+    } else {
+      result.detail[rest.country] = {
+        ...rest,
+        confirmed: 0,
+        death: 0,
+        recovered: 0,
+        [types[caseType].detailCase]: lastValue
+      };
+    }
+  });
+};
+
 const prepareData = async () => {
   const data = {};
   try {
-    const confirmData = await getConfirmCases();
-    const deathData = await getDeathCases();
-    const recoveredData = await getRecoveredCases();
+    const confirmData   = await cases.getConfirmCases();
+    const deathData     = await cases.getDeathCases();
+    const recoveredData = await cases.getRecoveredCases();
 
     data['lastUpdate'] = new Date().toISOString();
     data['historyConfirmedCases'] = sanitizeData(confirmData);
-    data['historyDeathCases'] = sanitizeData(deathData);
+    data['historyDeathCases']     = sanitizeData(deathData);
     data['historyRecoveredCases'] = sanitizeData(recoveredData);
   } catch (error) {
     console.log(error);
@@ -48,10 +91,32 @@ const prepareData = async () => {
   return data;
 };
 
+const prepareLatestSummaryData = data => {
+  const result = {
+    lastUpdate: data.lastUpdate,
+    totalConfirmedCases: 0,
+    totalDeathCases: 0,
+    totalRecoveredCases: 0,
+    detail: {}
+  };
+  try {
+    mapping(data, result, 'confirmed');
+    mapping(data, result, 'death');
+    mapping(data, result, 'recovered');
+  } catch (error) {
+    console.log(error);
+  }
+
+  result.detail = Object.keys(result.detail).map(key => result.detail[key]);
+  return result;
+};
+
 const syncData = async () => {
+  const data = await prepareData();
+  fs.writeFileSync(getFilePath(FILENAME.MAIN_DATA), JSON.stringify(data));
   fs.writeFileSync(
-    getFilePath('data.json'),
-    JSON.stringify(await prepareData())
+    getFilePath(FILENAME.SUMMARY_DATA),
+    JSON.stringify(prepareLatestSummaryData(data))
   );
 };
 

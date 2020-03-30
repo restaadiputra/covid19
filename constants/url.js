@@ -4,5 +4,7 @@ const BASE_JHU_CSSE_URL =
 module.exports = {
   CONFIRM_GLOBAL: `${BASE_JHU_CSSE_URL}/time_series_covid19_confirmed_global.csv`,
   DEATH_GLOBAL: `${BASE_JHU_CSSE_URL}/time_series_covid19_deaths_global.csv`,
-  RECOVERED_GLOBAL: `${BASE_JHU_CSSE_URL}/time_series_covid19_recovered_global.csv`
+  RECOVERED_GLOBAL: `${BASE_JHU_CSSE_URL}/time_series_covid19_recovered_global.csv`,
+  GITHUB_RAW_DATA: 'https://raw.githubusercontent.com/restaadiputra/covid19/master/data/data.json',
+  GITHUB_RAW_SUMMARY: 'https://raw.githubusercontent.com/restaadiputra/covid19/master/data/summary.json' 
 };
