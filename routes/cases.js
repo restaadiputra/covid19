@@ -34,6 +34,12 @@ const mapping = (data, result, caseType, date) => {
       ]
     );
 
+    if (result.effectiveDate === '') {
+      result.effectiveDate = moment(findLastKey(history), 'M/D/YY').format(
+        'MM-DD-YYYY'
+      );
+    }
+
     result[types[caseType].countField] += lastValue;
 
     if (lastValue !== 0) {
@@ -48,7 +54,7 @@ const mapping = (data, result, caseType, date) => {
 const prepareData = (caseType, data, date) => {
   const result = {
     lastUpdate: data.lastUpdate,
-    date: moment(date, 'M-D-YYYY').format('MM-DD-YYYY'),
+    effectiveDate: date === undefined ? '' : moment(date, 'M-D-YYYY').format('MM-DD-YYYY'),
     [types[caseType].countField]: 0,
     detail: []
   };
