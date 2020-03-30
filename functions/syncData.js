@@ -52,8 +52,8 @@ const sanitizeData = data =>
 const mapping = (data, result, caseType) => {
   data[types[caseType].dataField].forEach(country => {
     const { history, state, ...rest } = country;
-    const lastHistoryKey = findLastKey(history)
-    const lastValue = convertStringToNumber(history[lastHistoryKey]);
+    const lastValue = convertStringToNumber(history[findLastKey(history)]);
+
     result[types[caseType].countField] += lastValue;
 
     if (result.detail[rest.country]) {
@@ -77,13 +77,13 @@ const mapping = (data, result, caseType) => {
 const prepareData = async () => {
   const data = {};
   try {
-    const confirmData = await cases.getConfirmCases();
-    const deathData = await cases.getDeathCases();
+    const confirmData   = await cases.getConfirmCases();
+    const deathData     = await cases.getDeathCases();
     const recoveredData = await cases.getRecoveredCases();
 
     data['lastUpdate'] = new Date().toISOString();
     data['historyConfirmedCases'] = sanitizeData(confirmData);
-    data['historyDeathCases'] = sanitizeData(deathData);
+    data['historyDeathCases']     = sanitizeData(deathData);
     data['historyRecoveredCases'] = sanitizeData(recoveredData);
   } catch (error) {
     console.log(error);
@@ -113,10 +113,7 @@ const prepareLatestSummaryData = data => {
 
 const syncData = async () => {
   const data = await prepareData();
-  fs.writeFileSync(
-    getFilePath(FILENAME.MAIN_DATA),
-    JSON.stringify(data)
-  );
+  fs.writeFileSync(getFilePath(FILENAME.MAIN_DATA), JSON.stringify(data));
   fs.writeFileSync(
     getFilePath(FILENAME.SUMMARY_DATA),
     JSON.stringify(prepareLatestSummaryData(data))

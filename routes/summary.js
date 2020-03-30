@@ -6,7 +6,7 @@ router.get('/', (_, res) => {
     .then(data => { res.status(200).send(data); })
     .catch(err => {
       console.log(err);
-      res.status(400).send({ message: 'Main data file cannot be fetched. Please contact admin or wait for few minutes.' })
+      res.status(500).send({ message: 'Main data file cannot be fetched. Please contact admin or wait for few minutes.' })
     });
 });
 
