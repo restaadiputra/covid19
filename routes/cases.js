@@ -48,7 +48,7 @@ const mapping = (data, result, caseType, date) => {
 const prepareData = (caseType, data, date) => {
   const result = {
     lastUpdate: data.lastUpdate,
-    listDate: moment(date, 'M-D-YYYY').format('MM-DD-YYYY'),
+    date: moment(date, 'M-D-YYYY').format('MM-DD-YYYY'),
     [types[caseType].countField]: 0,
     detail: []
   };
