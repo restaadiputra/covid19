@@ -1,25 +1,19 @@
 const axios = require('axios');
-const fs = require('fs');
 const get = require('lodash/get');
 const URL = require('../constants/url');
-const getFilePath = require('../utils/getFilePath');
+const fileIO = require('./fileIO');
 
-// You can choose to use local 'data.json' as your source or
-// in my case, I want to use the 'data.json' that already in
-// my GitHub as that data will automatically updated periodically.
+const DEFAULT_FILENAME = 'data.json';
 
-const fetchData = async filename => {
-  // use GitHub data if I set env of 'USE_GITHUB' to true
+const fetchData = async (filename = DEFAULT_FILENAME) => {
   if (process.env.USE_GITHUB) {
     return axios
-      .get(filename || URL.GITHUB_RAW_DATA)
+      .get(URL.GITHUB_REPO_URL + filename)
       .then(result => get(result, 'data', {}));
   }
-  // or use local 'data.json'
   else {
-    return fs.promises
-      .readFile(getFilePath(filename || 'data.json'), { encoding: 'utf8' })
-      .then(data => JSON.parse(data));
+    return fileIO.readFile(filename)
+      .then(data => data);
   }
 };
 

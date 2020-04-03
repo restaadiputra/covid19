@@ -1,6 +1,6 @@
 {
   "name": "covid-19-app",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
@@ -8,7 +8,9 @@
     "sync-data": "node ./functions/syncData.js"
   },
   "dependencies": {
+    "app-root-path": "^3.0.0",
     "axios": "^0.19.2",
+    "compressed-json": "^1.0.15",
     "cookie-parser": "~1.4.4",
     "csvtojson": "^2.0.10",
     "debug": "~2.6.9",
@@ -16,6 +18,7 @@
     "express": "~4.16.1",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "node-fetch": "^2.6.0"
   }
 }
