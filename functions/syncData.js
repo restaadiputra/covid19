@@ -1,15 +1,15 @@
-const github = require('./fetchGithubData');
-const arcgis = require('./fetchArcgisData');
+const github = require('./github');
+const arcgis = require('./arcgis');
 
-const syncData = async () => {
+const syncLocalData = async () => {
   try {
-    arcgis();
-    github.getConfirmedCases();
-    github.getDeathsCases();
-    github.getRecoveredCases();
+    arcgis.syncArcgisSummaryData();
+    github.syncGithubConfirmedData();
+    github.syncGithubDeathsData();
+    github.syncGithubRecoveredData();
   } catch (error) {
     console.log('error', error);
   }
 };
 
-syncData();
+syncLocalData();

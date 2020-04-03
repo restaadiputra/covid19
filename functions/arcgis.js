@@ -1,16 +1,16 @@
 const axios = require('axios').default;
 const get = require('lodash/get');
 const fileIO = require('../utils/fileIO');
-const formatCountryString = require('../utils/formatCountryString');
+const getCountryFormat = require('../utils/getCountryFormat');
 const URL = require('../constants/url');
 
-const mappingKey = data => ({
+const mappingKeys = data => ({
   state: data.Province_State,
   country: data.Country_Region,
-  subRegion: formatCountryString(data.Country_Region).subRegion,
-  region: formatCountryString(data.Country_Region).region,
-  alpha2: formatCountryString(data.Country_Region).alpha2,
-  alpha3: formatCountryString(data.Country_Region).alpha3,
+  subRegion: getCountryFormat(data.Country_Region).subRegion,
+  region: getCountryFormat(data.Country_Region).region,
+  alpha2: getCountryFormat(data.Country_Region).alpha2,
+  alpha3: getCountryFormat(data.Country_Region).alpha3,
   lat: data.Lat,
   long: data.Long_,
   confirmed: data.Confirmed,
@@ -28,7 +28,7 @@ const params = {
   orderByFields: 'Country_Region asc,Province_State asc'
 };
 
-const fetchArcgisData = () => {
+const syncArcgisSummaryData = () => {
   axios
     .get(URL.ARCGIS_SERVER_FEATURE, { params })
     .then(result => {
@@ -45,7 +45,7 @@ const fetchArcgisData = () => {
         fileData.totalConfirmed += attributes.Confirmed;
         fileData.totalDeaths += attributes.Deaths;
         fileData.totalRecovered += attributes.Recovered;
-        fileData.countries.push(mappingKey(attributes));
+        fileData.countries.push(mappingKeys(attributes));
       });
 
       fileIO.writeFile('arcgis.json', fileData);
@@ -55,4 +55,6 @@ const fetchArcgisData = () => {
     });
 };
 
-module.exports = fetchArcgisData;
+module.exports = {
+  syncArcgisSummaryData
+};

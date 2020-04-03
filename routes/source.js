@@ -1,10 +1,9 @@
 const router = require('express').Router();
-const fetchData = require('../utils/fetchData');
-const fileIO = require('../utils/fileIO');
+const fetchFileData = require('../utils/fetchFileData');
 const MESSAGE = require('../constants/message');
 
 router.get('/:filename', ({ params }, res) => {
-  fetchData(params.filename === undefined ? undefined : `${params.filename}.json`)
+  fetchFileData(params.filename === undefined ? undefined : `${params.filename}.json`)
     .then(data => {
       res.status(200).send(data);
     })

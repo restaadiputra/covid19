@@ -2,7 +2,7 @@ const axios = require('axios').default;
 const csv = require('csvtojson');
 const get = require('lodash/get');
 const URL = require('../constants/url');
-const formatCountryString = require('../utils/formatCountryString');
+const getCountryFormat = require('../utils/getCountryFormat');
 const fileIO = require('../utils/fileIO');
 
 const types = {
@@ -20,7 +20,7 @@ const types = {
   }
 };
 
-const sanitizeData = data =>
+const mappingKeys = data =>
   data.map(item => {
     const {
       'Country/Region': country,
@@ -33,11 +33,11 @@ const sanitizeData = data =>
 
     return {
       state,
-      country: formatCountryString(country).name,
-      alpha2: formatCountryString(country).alpha2,
-      alpha3: formatCountryString(country).alpha3,
-      region: formatCountryString(country).region,
-      subRegion: formatCountryString(country).subRegion,
+      country: getCountryFormat(country).name,
+      alpha2: getCountryFormat(country).alpha2,
+      alpha3: getCountryFormat(country).alpha3,
+      region: getCountryFormat(country).region,
+      subRegion: getCountryFormat(country).subRegion,
       lat,
       long,
       history
@@ -51,7 +51,7 @@ const prepareAndWriteData = async caseType => {
   });
 
   const parsedJSON = await csv().fromString(get(csvFile, 'data', ''));
-  const history = sanitizeData(parsedJSON);
+  const history = mappingKeys(parsedJSON);
   const fileData = {
     dataLastFetch: new Date().toISOString(),
     type: `history of ${caseType} cases`,
@@ -61,12 +61,12 @@ const prepareAndWriteData = async caseType => {
   fileIO.writeFile(types[caseType].filename, fileData);
 };
 
-const getConfirmedCases = () => prepareAndWriteData('confirmed');
-const getDeathsCases    = () => prepareAndWriteData('deaths');
-const getRecoveredCases = () => prepareAndWriteData('recovered');
+const syncGithubConfirmedData = () => prepareAndWriteData('confirmed');
+const syncGithubDeathsData    = () => prepareAndWriteData('deaths');
+const syncGithubRecoveredData = () => prepareAndWriteData('recovered');
 
 module.exports = {
-  getConfirmedCases,
-  getDeathsCases,
-  getRecoveredCases
+  syncGithubConfirmedData,
+  syncGithubDeathsData,
+  syncGithubRecoveredData
 };

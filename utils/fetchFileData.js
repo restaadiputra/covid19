@@ -5,7 +5,7 @@ const fileIO = require('./fileIO');
 
 const DEFAULT_FILENAME = 'data.json';
 
-const fetchData = async (filename = DEFAULT_FILENAME) => {
+const fetchFileData = async (filename = DEFAULT_FILENAME) => {
   if (process.env.USE_GITHUB) {
     return axios
       .get(URL.GITHUB_REPO_URL + filename)
@@ -17,4 +17,4 @@ const fetchData = async (filename = DEFAULT_FILENAME) => {
   }
 };
 
-module.exports = fetchData;
+module.exports = fetchFileData;
