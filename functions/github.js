@@ -6,18 +6,9 @@ const getCountryFormat = require('../utils/getCountryFormat');
 const fileIO = require('../utils/fileIO');
 
 const types = {
-  confirmed: {
-    url: URL.CONFIRM_GLOBAL,
-    filename: 'confirmed.json'
-  },
-  deaths: {
-    url: URL.DEATHS_GLOBAL,
-    filename: 'deaths.json'
-  },
-  recovered: {
-    url: URL.RECOVERED_GLOBAL,
-    filename: 'recovered.json'
-  }
+  confirmed: URL.CONFIRM_GLOBAL,
+  deaths: URL.DEATHS_GLOBAL,
+  recovered: URL.RECOVERED_GLOBAL,
 };
 
 const mappingKeys = data =>
@@ -45,7 +36,7 @@ const mappingKeys = data =>
   });
 
 const prepareAndWriteData = async caseType => {
-  const csvFile = await axios.get(types[caseType].url).catch(err => {
+  const csvFile = await axios.get(types[caseType]).catch(err => {
     console.log(err);
     return null;
   });
@@ -58,7 +49,7 @@ const prepareAndWriteData = async caseType => {
     detail: history
   };
 
-  fileIO.writeFile(types[caseType].filename, fileData);
+  fileIO.writeFile(caseType, fileData);
 };
 
 const syncGithubConfirmedData = () => prepareAndWriteData('confirmed');

@@ -6,7 +6,5 @@ module.exports = {
   DEATHS_GLOBAL: `${BASE_JHU_CSSE_URL}/time_series_covid19_deaths_global.csv`,
   RECOVERED_GLOBAL: `${BASE_JHU_CSSE_URL}/time_series_covid19_recovered_global.csv`,
   GITHUB_REPO_URL: 'https://raw.githubusercontent.com/restaadiputra/covid19/master/data/',
-  GITHUB_RAW_DATA: 'https://raw.githubusercontent.com/restaadiputra/covid19/master/data/data.json',
-  GITHUB_RAW_SUMMARY: 'https://raw.githubusercontent.com/restaadiputra/covid19/master/data/summary.json',
   ARCGIS_SERVER_FEATURE: `https://services1.arcgis.com/0MSEUqKaxRlEPj5g/arcgis/rest/services/ncov_cases/FeatureServer/1/query`
 };

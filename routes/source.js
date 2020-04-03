@@ -3,7 +3,7 @@ const fetchFileData = require('../utils/fetchFileData');
 const MESSAGE = require('../constants/message');
 
 router.get('/:filename', ({ params }, res) => {
-  fetchFileData(params.filename === undefined ? undefined : `${params.filename}.json`)
+  fetchFileData(params.filename === undefined ? undefined : `${params.filename}`)
     .then(data => {
       res.status(200).send(data);
     })

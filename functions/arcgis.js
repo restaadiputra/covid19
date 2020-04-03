@@ -14,7 +14,7 @@ const mappingKeys = data => ({
   lat: data.Lat,
   long: data.Long_,
   confirmed: data.Confirmed,
-  death: data.Deaths,
+  deaths: data.Deaths,
   recovered: data.Recovered,
   active: data.Active,
   lastUpdate: new Date(data.Last_Update).toISOString()
@@ -48,7 +48,7 @@ const syncArcgisSummaryData = () => {
         fileData.countries.push(mappingKeys(attributes));
       });
 
-      fileIO.writeFile('arcgis.json', fileData);
+      fileIO.writeFile('arcgis', fileData);
     })
     .catch(err => {
       console.log(err);

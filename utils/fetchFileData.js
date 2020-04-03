@@ -3,9 +3,7 @@ const get = require('lodash/get');
 const URL = require('../constants/url');
 const fileIO = require('./fileIO');
 
-const DEFAULT_FILENAME = 'data.json';
-
-const fetchFileData = async (filename = DEFAULT_FILENAME) => {
+const fetchFileData = async (filename = 'data') => {
   if (process.env.USE_GITHUB) {
     return axios
       .get(URL.GITHUB_REPO_URL + filename)

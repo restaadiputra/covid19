@@ -5,7 +5,7 @@ const moment = require('moment');
 const convertStringToNumber = require('../utils/convertStringToNumber');
 const getFilePath = require('../utils/getFilePath');
 const MESSAGE = require('../constants/message');
-const fetchData = require('../utils/fetchData');
+const fetchFileData = require('../utils/fetchFileData');
 const country = require('../data/country.json');
 
 const types = {
@@ -91,7 +91,7 @@ const getData = (req, res) => {
       message: MESSAGE.DATE_FORMAT_WRONG
     });
   } else {
-    fetchData()
+    fetchFileData()
       .then(data => {
         res.status(200).send(prepareData(data, req.params.id, req.params.date));
       })

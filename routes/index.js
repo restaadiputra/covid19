@@ -7,6 +7,6 @@ const country = require('./country');
 router.use('/', summary);
 router.use('/source', source);
 router.use('/cases', cases);
-router.use('/country', country);
+// router.use('/country', country);
 
 module.exports = router;
