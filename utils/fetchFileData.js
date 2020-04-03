@@ -3,7 +3,8 @@ const get = require('lodash/get');
 const URL = require('../constants/url');
 const fileIO = require('./fileIO');
 
-const fetchFileData = async (filename = 'data') => {
+const fetchFileData = async (filename = 'arcgis') => {
+  console.log(filename)
   if (process.env.USE_GITHUB) {
     return axios
       .get(URL.GITHUB_REPO_URL + filename)
@@ -11,7 +12,6 @@ const fetchFileData = async (filename = 'data') => {
   }
   else {
     return fileIO.readFile(filename)
-      .then(data => data);
   }
 };
 
