@@ -3,11 +3,18 @@ const findLastKey = require('lodash/findLastKey');
 const get = require('lodash/get');
 const moment = require('moment');
 const fileIO = require('../utils/fileIO');
+const fetchFileData = require('../utils/fetchFileData');
 const convertStringToNumber = require('../utils/convertStringToNumber');
 const MESSAGE = require('../constants/message');
 
 const isCaseTypeValid = caseType =>
   ['confirmed', 'deaths', 'recovered'].indexOf(caseType.toLowerCase());
+
+const isDateSameOrAfter = date => 
+  moment(date, 'MM-DD-YY').isSameOrAfter(moment(new Date(), moment.ISO_8601),'date');
+
+const isDateAfter = date => 
+  moment(date, 'MM-DD-YY').isAfter(moment(new Date(), moment.ISO_8601),'date');
 
 const getCurrentURL = req => `${req.protocol}://${req.headers.host}/api/cases`;
 
@@ -16,26 +23,21 @@ const getTotalField = caseType =>
     ? 'total'
     : `total${caseType.charAt(0).toUpperCase() + caseType.slice(1)}`;
 
-const getValueOfDate = (list, date) =>
+const getValueOfDate = (list = [], date) =>
   convertStringToNumber(
-    list[
-      date === undefined
-        ? findLastKey(history)
-        : moment(date, 'M-D-YYYY').format('M/D/YY')
-    ]
+    list.find(e => e[0] === moment(date, 'M-D-YYYY').format('M/D/YY'))[1]
   );
 
-const getAllEndpoint = () => ({
+const getAllEndpoint = req => ({
   availableEndpoint: [
     `${getCurrentURL(req)}/confirmed`,
     `${getCurrentURL(req)}/deaths`,
     `${getCurrentURL(req)}/recovered`
   ]
-})
+});
 
 const prepareDailyData = async (caseType, date = new Date()) => {
-  const dataFile = await fileIO.readFile(caseType);
-  const detail = get(dataFile, 'detail', []);
+  const dataFile = await fetchFileData(caseType);
   const result = {
     date: moment(date, 'M-D-YYYY').format('MM-DD-YYYY'),
     cases: `${caseType} cases`,
@@ -43,7 +45,7 @@ const prepareDailyData = async (caseType, date = new Date()) => {
     country: []
   };
 
-  detail.forEach(country => {
+  dataFile.forEach(country => {
     const { history, ...rest } = country;
     const dateValue = getValueOfDate(history, date);
 
@@ -59,10 +61,12 @@ const prepareDailyData = async (caseType, date = new Date()) => {
   return result;
 };
 
-const prepareCurrentDailyData = async caseType => {
-  const dataFile = await fileIO.readFile('arcgis');
+const prepareCurrentDailyData = async (caseType, date = new Date()) => {
+  const dataFile = await fetchFileData('arcgis');
   const result = {
-    date: moment(dataFile.dataLastFetch).format('MM-DD-YYYY'),
+    date: isDateAfter(date) 
+      ? moment(date, 'M-D-YYYY').format('MM-DD-YYYY')
+      : moment(dataFile.dataLastFetch).format('MM-DD-YYYY'),
     cases: `${caseType.toLowerCase()} cases`,
     [getTotalField(caseType)]: dataFile[getTotalField(caseType)],
     country: []
@@ -89,7 +93,7 @@ const validateCaseAndDate = (req, res, next) => {
   if (isCaseTypeValid(req.params.type) == -1) {
     res.status(400).send({
       message: MESSAGE.CASE_TYPE_WRONG,
-      ...getAllEndpoint()
+      ...getAllEndpoint(req)
     });
   } else if (
     req.params.date !== undefined &&
@@ -104,10 +108,7 @@ const validateCaseAndDate = (req, res, next) => {
 };
 
 const getDataCaseByDate = (req, res, next) => {
-  if (
-    moment(req.params.date, 'MM-DD-YY').isSameOrAfter(
-    moment(new Date(), moment.ISO_8601), 'date')
-  ) {
+  if (isDateSameOrAfter(req.params.date)) {
     next();
     return;
   }
@@ -123,7 +124,7 @@ const getDataCaseByDate = (req, res, next) => {
 };
 
 const getCurrentDataCase = ({ params }, res) => {
-  prepareCurrentDailyData(params.type)
+  prepareCurrentDailyData(params.type, params.date)
     .then(data => {
       res.status(200).send(data);
     })
@@ -133,8 +134,8 @@ const getCurrentDataCase = ({ params }, res) => {
     });
 };
 
-const getAvailableEndpoint = (_, res) => {
-  res.status(200).send(getAllEndpoint());
+const getAvailableEndpoint = (req, res) => {
+  res.status(200).send(getAllEndpoint(req));
 };
 
 router.get('/', getAvailableEndpoint);

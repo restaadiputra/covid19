@@ -20,7 +20,7 @@ const mappingKeys = data =>
       Long: long,
       ...rest
     } = item;
-    const history = rest;
+    const history = Object.keys(rest).map(e => ([e, parseInt(rest[e])]));
 
     return {
       state,
@@ -43,13 +43,7 @@ const prepareAndWriteData = async caseType => {
 
   const parsedJSON = await csv().fromString(get(csvFile, 'data', ''));
   const history = mappingKeys(parsedJSON);
-  const fileData = {
-    dataLastFetch: new Date().toISOString(),
-    type: `history of ${caseType} cases`,
-    detail: history
-  };
-
-  fileIO.writeFile(caseType, fileData);
+  fileIO.writeFile(caseType, history);
 };
 
 const syncGithubConfirmedData = () => prepareAndWriteData('confirmed');

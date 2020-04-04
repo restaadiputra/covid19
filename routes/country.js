@@ -3,9 +3,6 @@ const country = require('../data/country.json');
 const MESSAGE = require('../constants/message');
 const fetchFileData = require('../utils/fetchFileData');
 
-const getCountryByAlpha3 = alpha3 =>
-  country.find(country => country.alpha3 === alpha3.toUpperCase());
-
 const getAllCountry = (_, res) => {
   res.status(200).send(country);
 };

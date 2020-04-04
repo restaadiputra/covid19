@@ -13,6 +13,7 @@ module.exports = countryString => {
     'subRegion': '-'
   };
   countriesData.some(countryCode => {
+    // TODO: Fix country search where some country has the same part. Case 'India'
     let re = new RegExp('\\b' + RegExp.escape(countryString), 'i');
     if (countryCode.name.search(re) !== -1) {
       formatCountry = countryCode;
