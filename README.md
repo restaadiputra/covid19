@@ -120,6 +120,26 @@ In my case, I use Github Action to automatically sync the data and store it in m
 
 
 
+# FAQ
+
+**Q**: *Can I use all the source code here ?*
+
+**A**: Yes, you can. All without charge. But all the data  that is pull from JHU arcgis or GitHub my cannot be used for commercial purposes without charge. You should ask them.
+
+
+
+**Q**: *Is the data realtime?*
+
+**A**: If you mean the data from my deployed API, the answer is **NO**. All data is pull from arcigs data feature and GitHub repository and then store in my own GitHub.
+
+
+
+**Q**: *Why you put your data in Github not in database or fetch directly?*
+
+**A**: First because I don't want to handle database service. Second because I don't want to burden the Arcgis or Github Repo of JHU since this is my own project.
+
+
+
 # License
 
 MIT License 2020, Resta Adiputra.

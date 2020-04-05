@@ -23,7 +23,7 @@ Endpoints for viewing the case-based status of COVID19 between `confirmed`, `dea
 
 * [Show available endpoints for cases](#show-available-endpoints-for-cases) : `GET /api/cases/`
 * [Show data by case type](#show-data-by-case-type) : `GET /api/cases/:caseType`
-* [Show data by case type and date](cases-type.md) : `GET /api/cases/:caseType/:date`
+* [Show data by case type and date](#show-data-by-case-type-and-date) : `GET /api/cases/:caseType/:date`
 
 ### Country related
 
@@ -36,7 +36,7 @@ Endpoints for viewing the case-based status of COVID19 between `confirmed`, `dea
 
 Endpoints for viewing the series of date containing the status of COVID19 each day. Accept two queries, `case` and `alpha3` for filtering
 
-* [Show available endpoints](#show-series-of-date) : `GET /api/series/`
+* [Show series of date](#show-series-of-date) : `GET /api/series/`
 
 
 
@@ -474,7 +474,7 @@ Return the series of date that contained on of `confirmed`, `deaths` and `recove
 
 **Auth required** : NO
 
-## Success Response
+## Success Response ✅
 
 **Code** : `200 OK`
 
@@ -545,7 +545,7 @@ For  `case` query with value `confirmed`. `/api/series?case=confirmed`
 
 
 
-## Fail Response
+## Fail Response ❌
 
 **Code** : `400 Bad Request`
 
