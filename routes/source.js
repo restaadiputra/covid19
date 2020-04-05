@@ -13,7 +13,9 @@ router.get('/', (req, res) => {
       res.status(404).send({ message: MESSAGE.SOURCE_FILE_INACCESSIBLE });
     } else {
       res.status(200).send({ 
-        availableEndpoint: files.map(file => `${getCurrentURL(req)}/${file.replace('.json', '')}`)
+        availableEndpoint: files
+          .filter(filename => filename !== 'country.json')
+          .map(filename => `${getCurrentURL(req)}/${filename.replace('.json', '')}`)
       })
     }
   })
