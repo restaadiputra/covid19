@@ -21,16 +21,25 @@ router.get('/', (req, res) => {
   })
 });
 
-router.get('/:filename', ({ params }, res) => {
+router.get('/:filename', (req, res) => {
   fetchFileData(
-    params.filename === undefined ? undefined : `${params.filename}`
+    req.params.filename === undefined ? undefined : `${req.params.filename}`
   )
     .then(data => {
       res.status(200).send(data);
     })
     .catch(err => {
-      console.log(err.message);
-      res.status(404).send({ message: MESSAGE.SOURCE_FILE_INACCESSIBLE });
+      if (err.message.search('no such file or directory, open')) {
+        res.status(404).send({ 
+          message: MESSAGE.SOURCE_FILE_NOTFOUND,
+          availableEndpoint: fs
+            .readdirSync(path.resolve(__dirname, '..') + '/data/')
+            .filter(filename => filename !== 'country.json')
+            .map(filename => `${getCurrentURL(req)}/${filename.replace('.json', '')}`)
+        })
+      } else {
+        res.status(500).send({ message: MESSAGE.SOURCE_FILE_INACCESSIBLE });
+      }
     });
 });
 
