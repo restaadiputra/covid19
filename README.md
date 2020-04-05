@@ -82,19 +82,19 @@ This app use React as front-end which must be build first and then let the Expre
 
 # Routes 📄
 
-The basic routes `/` will be use by pre-build React app as it will be hosted by Express server. So all api will have prefix `/api`.
+The basic routes `/` will be use by pre-build React app as it will be hosted by Express server. So all api will have prefix `/api`. All api only has **Get** methods.
 
-| Route                      | Description                                                  |
-| -------------------------- | ------------------------------------------------------------ |
-| /api                       | Return a summary of data and current detail of country       |
-| /api/source                | Return a full data from data.json                            |
-| /api/cases                 | Return all available route for cases                         |
-| /api/cases/:caseType       | Return the data of current cases. `caseType` can be choosen between `confirmed`, `death`, and `recovered`. For example `/api/cases/confirmed` will return all latest confirmed cases. |
-| /api/cases/:caseType/:date | This route is the extend of `/api/cases/:caseType` with addition that it accept date which use format `MM-DD-YYYY`. For example `/api/cases/confirmed/03-04-2020` will return the confirmed cases until March 04, 2020. |
-| /api/country               | Return all available country                                 |
-| /api/country/:alpha3       | Return current condition of a country based on its `alpha3`. Alpha3 is three-letter [country codes](https://en.wikipedia.org/wiki/Country_code) defined in [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1). You can get alpha3 code in `/api/country`. For example `/api/country/idn` will return the latest condition of Indonesia. **Note**: alpha3 is not *Case-Sensitive*. |
-| /api/country/:alpha3/:date | This route is the extend of `/api/country/:alpha3` with addition that it accept date which use format `MM-DD-YYYY`. For example `/api/cases/confirmed/03-04-2020` will return the condition of until March 04, 2020. For example `/api/country/idn/03-04-2020` will return the condition of Indonesia until March 04, 2020. |
-| /api/history               | *in progress*                                                |
+| Route                  | Description                                                  |
+| ---------------------- | ------------------------------------------------------------ |
+| /                      | Return a summary of data and current detail of country       |
+| /source                | Return a full data from data.json                            |
+| /cases                 | Return all available route for cases                         |
+| /cases/:caseType       | Return the data of current cases. `caseType` can be choosen between `confirmed`, `deaths`, and `recovered`. For example `/api/cases/confirmed` will return all latest confirmed cases. |
+| /cases/:caseType/:date | This route is the extend of `/api/cases/:caseType` with addition that it accept date which use format `MM-DD-YYYY`. For example `/api/cases/confirmed/03-04-2020` will return the confirmed cases until March 04, 2020. |
+| /country               | Return all available country                                 |
+| /country/:alpha3       | Return current condition of a country based on its `alpha3`. Alpha3 is three-letter [country codes](https://en.wikipedia.org/wiki/Country_code) defined in [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1). You can get alpha3 code in `/api/country`. For example `/api/country/idn` will return the latest condition of Indonesia. **Note**: alpha3 is not *Case-Sensitive*. |
+| /country/:alpha3/:date | This route is the extend of `/api/country/:alpha3` with addition that it accept date which use format `MM-DD-YYYY`. For example `/api/cases/confirmed/03-04-2020` will return the condition of until March 04, 2020. For example `/api/country/idn/03-04-2020` will return the condition of Indonesia until March 04, 2020. |
+| /history               | *in progress*                                                |
 
 
 
