@@ -7,8 +7,7 @@ router.get('/', (_, res) => {
     .then(data => {
       res.status(200).send(data);
     })
-    .catch(err => {
-      console.log(err.message);
+    .catch(() => {
       res.status(500).send({ message: MESSAGE.SOURCE_FILE_INACCESSIBLE });
     });
 });

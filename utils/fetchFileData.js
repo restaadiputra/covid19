@@ -7,7 +7,7 @@ const readFile = require('./fileIO').readFileDecompress;
 const fetchFileData = async (filename = 'arcgis') => {
   if (process.env.USE_GITHUB) {
     return axios
-      .get(URL.GITHUB_REPO_URL + filename)
+      .get(URL.GITHUB_REPO_URL + filename + '.json')
       .then(result => cjson.decompress(get(result, 'data', {})));
   }
   else {
