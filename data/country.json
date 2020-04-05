@@ -159,7 +159,8 @@
   "alpha2": "BO",
   "alpha3": "BOL",
   "region": "Americas",
-  "subRegion": "Latin America and the Caribbean"
+  "subRegion": "Latin America and the Caribbean",
+  "alternativeName": ["Bolivia"]
 }, {
   "name": "Bonaire, Sint Eustatius and Saba",
   "alpha2": "BQ",
@@ -201,7 +202,8 @@
   "alpha2": "BN",
   "alpha3": "BRN",
   "region": "Asia",
-  "subRegion": "South-eastern Asia"
+  "subRegion": "South-eastern Asia",
+  "alternativeName": ["Brunei"]
 }, {
   "name": "Bulgaria",
   "alpha2": "BG",
@@ -637,7 +639,8 @@
   "alpha2": "IR",
   "alpha3": "IRN",
   "region": "Asia",
-  "subRegion": "Southern Asia"
+  "subRegion": "Southern Asia",
+  "alternativeName": ["Iran"]
 }, {
   "name": "Iraq",
   "alpha2": "IQ",
@@ -885,7 +888,8 @@
   "alpha2": "MD",
   "alpha3": "MDA",
   "region": "Europe",
-  "subRegion": "Eastern Europe"
+  "subRegion": "Eastern Europe",
+  "alternativeName": ["Moldova"]
 }, {
   "name": "Monaco",
   "alpha2": "MC",
@@ -1114,7 +1118,8 @@
   "alpha2": "RU",
   "alpha3": "RUS",
   "region": "Europe",
-  "subRegion": "Eastern Europe"
+  "subRegion": "Eastern Europe",
+  "alternativeName": ["Russia"]
 }, {
   "name": "Rwanda",
   "alpha2": "RW",
@@ -1312,7 +1317,8 @@
   "alpha2": "SY",
   "alpha3": "SYR",
   "region": "Asia",
-  "subRegion": "Western Asia"
+  "subRegion": "Western Asia",
+  "alternativeName": ["Syria"]
 }, {
   "name": "Taiwan, Province of China",
   "alpha2": "TW",
@@ -1331,7 +1337,8 @@
   "alpha2": "TZ",
   "alpha3": "TZA",
   "region": "Africa",
-  "subRegion": "Sub-Saharan Africa"
+  "subRegion": "Sub-Saharan Africa",
+  "alternativeName": ["Tanzania"]
 }, {
   "name": "Thailand",
   "alpha2": "TH",
@@ -1421,7 +1428,8 @@
   "alpha2": "GB",
   "alpha3": "GBR",
   "region": "Europe",
-  "subRegion": "Northern Europe"
+  "subRegion": "Northern Europe",
+  "alternativeName": ["United Kingdom"]
 }, {
   "name": "United States of America",
   "alpha2": "US",
@@ -1458,7 +1466,8 @@
   "alpha2": "VE",
   "alpha3": "VEN",
   "region": "Americas",
-  "subRegion": "Latin America and the Caribbean"
+  "subRegion": "Latin America and the Caribbean",
+  "alternativeName": ["Venezuela"]
 }, {
   "name": "Viet Nam",
   "alpha2": "VN",
@@ -1520,4 +1529,11 @@
   "alpha3": "XX2",
   "region": "-",
   "subRegion": "-"
-}]
+}, {
+  "name": "MS Zaandam",
+  "alpha2": "X3",
+  "alpha3": "XX3",
+  "region": "-",
+  "subRegion": "-"
+}
+]

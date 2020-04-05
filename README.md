@@ -1,6 +1,6 @@
 # COVID-19 (2019-nCoV) API
 
-All data comes from [Johns Hopkins CSSE Github Repository](https://github.com/CSSEGISandData/COVID-19) and inspired by [covid-19-api by mathdroid](https://github.com/mathdroid/covid-19-api). 
+All data comes from [Johns Hopkins CSSE Github Repository](https://github.com/CSSEGISandData/COVID-19) and [Visual Dashboard](https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6). Also inspired by [covid-19-api by mathdroid](https://github.com/mathdroid/covid-19-api). 
 
 You should checkout both repo.
 
@@ -82,25 +82,27 @@ This app use React as front-end which must be build first and then let the Expre
 
 # Routes 📄
 
-The basic routes `/` will be use by pre-build React app as it will be hosted by Express server. So all api will have prefix `/api`.
+The basic routes `/` will be use by pre-build React app as it will be hosted by Express server. So all api will have prefix `/api`. All api only has **Get** methods.
 
-| Route                      | Description                                                  |
-| -------------------------- | ------------------------------------------------------------ |
-| /api                       | Return a summary of data and current detail of country       |
-| /api/source                | Return a full data from data.json                            |
-| /api/cases                 | Return all available route for cases                         |
-| /api/cases/:caseType       | Return the data of current cases. `caseType` can be choosen between `confirmed`, `death`, and `recovered`. For example `/api/cases/confirmed` will return all latest confirmed cases. |
-| /api/cases/:caseType/:date | This route is the extend of `/api/cases/:caseType` with addition that it accept date which use format `MM-DD-YYYY`. For example `/api/cases/confirmed/03-04-2020` will return the confirmed cases until March 04, 2020. |
-| /api/country               | Return all available country                                 |
-| /api/country/:alpha3       | Return current condition of a country based on its `alpha3`. Alpha3 is three-letter [country codes](https://en.wikipedia.org/wiki/Country_code) defined in [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1). You can get alpha3 code in `/api/country`. For example `/api/country/idn` will return the latest condition of Indonesia. **Note**: alpha3 is not *Case-Sensitive*. |
-| /api/country/:alpha3/:date | This route is the extend of `/api/country/:alpha3` with addition that it accept date which use format `MM-DD-YYYY`. For example `/api/cases/confirmed/03-04-2020` will return the condition of until March 04, 2020. For example `/api/country/idn/03-04-2020` will return the condition of Indonesia until March 04, 2020. |
-| /api/history               | *in progress*                                                |
+| Route                  | Description                                                  |
+| ---------------------- | ------------------------------------------------------------ |
+| /                      | Return a summary of data and current detail of country       |
+| /source                | Return all available routes for source                       |
+| /source/:filename      | Return the original data/source based on filename. See all the available routes in `/source` |
+| /cases                 | Return all available routes for cases                        |
+| /cases/:caseType       | Return the data of current cases. `caseType` can be choosen between `confirmed`, `deaths`, and `recovered`. For example `/api/cases/confirmed` will return all latest confirmed cases. |
+| /cases/:caseType/:date | This route is the extend of `/api/cases/:caseType` with addition that it accept date which use format `MM-DD-YYYY`. For example `/api/cases/confirmed/03-04-2020` will return the confirmed cases until March 04, 2020. Validation date used momentJs `isValid` function. |
+| /country               | Return all available country                                 |
+| /country/:alpha3       | Return current condition of a country based on its `alpha3`. You can get alpha3 code in `/api/country`. For example `/api/country/idn` will return the latest condition of Indonesia. **Note**: alpha3 is not *Case-Sensitive*. |
+| /series                | Return a series of date containing the status of `confirmed`, `deaths`, and `recovered`. Accept two query which are `case` and `alpha3` to filter the series. |
+
+[**Full documentation for each routes can be read here**](documentation/api.md)
 
 
 
 # Use Github Hosted File
 
-In my case, I use Github Action to automatically sync the data and store it in my repository which will be consumed by my Express instead of local data (`data.json` and `summary.json`). By default, the server use local data, but for me, I use my data in my repository. If you also want to do it, There are several things that need be looked up.
+In my case, I use Github Action to automatically sync the data and store it in my repository which will be consumed by my Express instead of local data. By default, the server use local data, but for me, I use my data in my repository. If you also want to do it, There are several things that need be looked up.
 
 1. Add environment variable (`.env`) in project folder.
 
@@ -112,15 +114,34 @@ In my case, I use Github Action to automatically sync the data and store it in m
 
    ```
    ....
-   GITHUB_RAW_DATA: https://raw.githubusercontent.com/<your_github_data_file_links>,
-   GITHUB_RAW_SUMMARY: https://raw.githubusercontent.com/<your_github_summary_file_links>
+   GITHUB_REPO_URL: https://raw.githubusercontent.com/<your_github_directory_data_file_links>,
    ....
    ```
 
 
 
+# FAQ
+
+**Q**: *Can I use all the source code here ?*
+
+**A**: Yes, you can. All without charge. But all the data  that is pull from JHU arcgis or GitHub my cannot be used for commercial purposes without charge. You should ask them.
+
+
+
+**Q**: *Is the data realtime?*
+
+**A**: If you mean the data from my deployed API, the answer is **NO**. All data is pull from arcigs data feature and GitHub repository and then store in my own GitHub.
+
+
+
+**Q**: *Why you put your data in Github not in database or fetch directly?*
+
+**A**: First because I don't want to handle database service. Second because I don't want to burden the Arcgis or Github Repo of JHU since this is my own project.
+
+
+
 # License
 
-MIT License 2020, restaadiputra.
+MIT License 2020, Resta Adiputra.
 
 Transitively from the John Hopkins Site, the data may not be used for commercial purposes.
