@@ -106,6 +106,7 @@ const addCurrentSummarize = (accumulator, data, caseType, countryID) => {
   });
 };
 
+// TODO: The file that pull for only 1 caseType is still 3 file instead only the respective caseType
 const prepareData = async (caseType = 'all', countryID) => {
   const [current, ...rest] = await Promise.all([
     fetchFileData(),
@@ -132,8 +133,7 @@ const getAllData = (req, res) => {
     .then(data => {
       res.status(200).send(data);
     })
-    .catch(err => {
-      console.log(err);
+    .catch(() => {
       res.status(500).send({ message: MESSAGE.SOURCE_FILE_INACCESSIBLE });
     });
 };

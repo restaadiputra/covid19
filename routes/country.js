@@ -1,10 +1,16 @@
 const router = require('express').Router();
-const country = require('../data/country.json');
 const MESSAGE = require('../constants/message');
 const fetchFileData = require('../utils/fetchFileData');
+const readFile = require('../utils/fileIO').readFile;
 
 const getAllCountry = (_, res) => {
-  res.status(200).send(country);
+  readFile('country')
+    .then(data => {
+      res.status(200).send(data);
+    })
+    .catch(() => {
+      res.status(500).send({ message: MESSAGE.SOURCE_FILE_INACCESSIBLE });
+    })
 };
 
 const getCurrentCountryStatus = ({ params }, res) => {
@@ -13,8 +19,7 @@ const getCurrentCountryStatus = ({ params }, res) => {
       const country = data.countries.filter(c => c.alpha3 === params.id.toUpperCase());
       res.status(200).send(country)
     })
-    .catch(err => {
-      console.log(err.message);
+    .catch(() => {
       res.status(500).send({ message: MESSAGE.SOURCE_FILE_INACCESSIBLE });
     });
 };

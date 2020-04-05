@@ -1,6 +1,6 @@
 const axios = require('axios').default;
 const get = require('lodash/get');
-const fileIO = require('../utils/fileIO');
+const writeFile = require('../utils/fileIO').writeFileCompress;
 const getCountryFormat = require('../utils/getCountryFormat');
 const URL = require('../constants/url');
 
@@ -48,7 +48,7 @@ const syncArcgisSummaryData = () => {
         fileData.countries.push(mappingKeys(attributes));
       });
 
-      fileIO.writeFile('arcgis', fileData);
+      writeFile('arcgis', fileData);
     })
     .catch(err => {
       console.log(err);

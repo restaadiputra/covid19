@@ -3,7 +3,7 @@ const csv = require('csvtojson');
 const get = require('lodash/get');
 const URL = require('../constants/url');
 const getCountryFormat = require('../utils/getCountryFormat');
-const fileIO = require('../utils/fileIO');
+const writeFile = require('../utils/fileIO').writeFileCompress;
 
 const types = {
   confirmed: URL.CONFIRM_GLOBAL,
@@ -43,7 +43,7 @@ const prepareAndWriteData = async caseType => {
 
   const parsedJSON = await csv().fromString(get(csvFile, 'data', ''));
   const history = mappingKeys(parsedJSON);
-  fileIO.writeFile(caseType, history);
+  writeFile(caseType, history);
 };
 
 const syncGithubConfirmedData = () => prepareAndWriteData('confirmed');

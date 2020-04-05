@@ -1,8 +1,5 @@
 const router = require('express').Router();
-const findLastKey = require('lodash/findLastKey');
-const get = require('lodash/get');
 const moment = require('moment');
-const fileIO = require('../utils/fileIO');
 const fetchFileData = require('../utils/fetchFileData');
 const convertStringToNumber = require('../utils/convertStringToNumber');
 const MESSAGE = require('../constants/message');
@@ -23,10 +20,14 @@ const getTotalField = caseType =>
     ? 'total'
     : `total${caseType.charAt(0).toUpperCase() + caseType.slice(1)}`;
 
-const getValueOfDate = (list = [], date) =>
-  convertStringToNumber(
-    list.find(e => e[0] === moment(date, 'M-D-YYYY').format('M/D/YY'))[1]
-  );
+const getValueOfDate = (list = [], date) => {
+  const dateArray = list.find(e => e[0] === moment(date, 'M-D-YYYY').format('M/D/YY'))
+  if (dateArray === undefined) {
+    return 0;
+  } else {
+    convertStringToNumber(dateArray[1]);
+  }
+}
 
 const getAllEndpoint = req => ({
   availableEndpoint: [
