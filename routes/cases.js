@@ -25,7 +25,7 @@ const getValueOfDate = (list = [], date) => {
   if (dateArray === undefined) {
     return 0;
   } else {
-    convertStringToNumber(dateArray[1]);
+    return convertStringToNumber(dateArray[1]);
   }
 }
 

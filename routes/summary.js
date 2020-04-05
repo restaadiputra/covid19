@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const fetchFileData = require('../utils/fetchFileData');
-const URL = require('../constants/url');
 const MESSAGE = require('../constants/message');
 
 router.get('/', (_, res) => {
